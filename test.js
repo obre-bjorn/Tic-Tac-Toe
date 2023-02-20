@@ -5,4 +5,6 @@ let array = [
 ]
 
 
-console.log(array[0][1])
+let values = array.map((row) => row.map((value) => value + 2))
+
+console.log(values)

@@ -1,3 +1,4 @@
+// Tic Tac Toe Board Generator
 function GameBoard() {
 
     let gameboard = []
@@ -7,7 +8,7 @@ function GameBoard() {
         for (let i = 0; i < rows; i++) {
             gameboard.push([])
             for (let j = 0; j < rows; j++) {
-                gameboard[i].push('')
+                gameboard[i].push(Cell())
             }
         }
         console.log(gameboard)
@@ -15,16 +16,37 @@ function GameBoard() {
 
     let getBoard = () => gameboard
 
-    function availableCell(row, column, player) {
-        if (gameboard[column][row] !== '') return
 
-        gameboard[column][row] = player.symbol
+    function dropToken(row, column, player) {
 
-        return gameboard
+        let availableCell = gameboard[column][row].get !== '';
+
+        if (availableCell) return
+        gameboard[column][row].addToken(player)
 
     }
-    return { createBoard, getBoard, availableCell }
+
+    return { createBoard, getBoard, dropToken }
 }
+
+
+// Represents each Box to be played
+function Cell() {
+    let value = ''
+
+    function addToken(player) {
+        value = player
+    }
+
+    function getValue() {
+        return value
+    }
+
+    return { addToken, getValue }
+}
+
+
+// Game Controller Function
 
 function gameController() {
 
