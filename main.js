@@ -23,7 +23,7 @@ function GameBoard() {
     // Place Value on the Board
     function dropToken(row, column, player) {
 
-        let availableCell = gameboard[column][row].getValue() !== '';
+        let availableCell = gameboard[row][column].getValue() !== '';
 
         if (availableCell) return
         gameboard[column][row].addToken(player)
@@ -86,9 +86,32 @@ function gameController() {
 
     let getActivePlayer = () => activePlayer
 
+    function printNewRound() {
+        console.log(game.printBoard())
 
+        console.log(`${activePlayer.player}'s Turn `)
+    }
 
+    function playRound(row, column) {
+        console.log(`Dropping ${getActivePlayer}'s token`);
+        game.dropToken(row, column, getActivePlayer.symbol)
+
+        switchPlayer()
+        printNewRound()
+
+    }
+
+    printNewRound()
+
+    return {
+        getActivePlayer,
+        playRound
+
+    }
 
 }
 
-gameController()
+let TicTacToe = gameController()
+TicTacToe.playRound(1, 2)
+TicTacToe.playRound(0, 0)
+console.log(TicTacToe);
