@@ -82,19 +82,19 @@ function gameController() {
 
     let activePlayer = players[0]
 
-    let switchPlayer = () => activePlayer === players[0] ? players[1] : players[0]
+    let switchPlayer = () => activePlayer = activePlayer === players[0] ? players[1] : players[0]
 
     let getActivePlayer = () => activePlayer
 
     function printNewRound() {
         console.log(game.printBoard())
 
-        console.log(`${activePlayer.player}'s Turn `)
+        console.log(`${getActivePlayer().player}'s Turn `)
     }
 
     function playRound(row, column) {
         console.log(`Dropping ${getActivePlayer}'s token`);
-        game.dropToken(row, column, getActivePlayer.symbol)
+        game.dropToken(row, column, getActivePlayer().symbol)
 
         switchPlayer()
         printNewRound()
