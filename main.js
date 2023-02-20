@@ -3,41 +3,58 @@ function GameBoard() {
 
     let gameboard = []
 
-
-    function createBoard(elem, rows) {
+    function createBoard(rows) {
         for (let i = 0; i < rows; i++) {
             gameboard.push([])
             for (let j = 0; j < rows; j++) {
                 gameboard[i].push(Cell())
             }
         }
-        console.log(gameboard)
     }
 
+    // Creates Board 
+    createBoard(3);
+
+
+    // Board Getter
     let getBoard = () => gameboard
 
 
+    // Place Value on the Board
     function dropToken(row, column, player) {
 
-        let availableCell = gameboard[column][row].get !== '';
+        let availableCell = gameboard[column][row].getValue() !== '';
 
         if (availableCell) return
         gameboard[column][row].addToken(player)
 
     }
 
-    return { createBoard, getBoard, dropToken }
+
+    // Prints Board to the Screen / Console.
+    function printBoard() {
+        let boardWithValues = gameboard.map(row => row.map(cell => cell.getValue()));
+        return boardWithValues;
+
+    }
+
+
+    return { getBoard, dropToken, printBoard }
 }
 
 
-// Represents each Box to be played
+// Represents each Box to be displayed on the board
 function Cell() {
     let value = ''
 
+
+    // Add Player value to Cell
     function addToken(player) {
         value = player
     }
 
+
+    // Get the cell value
     function getValue() {
         return value
     }
@@ -50,7 +67,7 @@ function Cell() {
 
 function gameController() {
 
-
+    // Player that play the game
     let players = [{
             player: 'Player One',
             symbol: 'X'
@@ -62,12 +79,16 @@ function gameController() {
     ]
 
     let game = GameBoard();
-    game.createBoard('', 3);
+
+    let activePlayer = players[0]
+
+    let switchPlayer = () => activePlayer === players[0] ? players[1] : players[0]
+
+    let getActivePlayer = () => activePlayer
 
 
-    console.log(game.availableCell(1, 1, players[0]))
-    console.log(game.availableCell(1, 1, players[1]))
-    console.log(game.availableCell(0, 1, players[0]))
+
+
 }
 
 gameController()
