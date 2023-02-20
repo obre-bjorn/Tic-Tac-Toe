@@ -26,7 +26,7 @@ function GameBoard() {
         let availableCell = gameboard[row][column].getValue() !== '';
 
         if (availableCell) return
-        gameboard[column][row].addToken(player)
+        gameboard[row][column].addToken(player)
 
     }
 
@@ -114,4 +114,7 @@ function gameController() {
 let TicTacToe = gameController()
 TicTacToe.playRound(1, 2)
 TicTacToe.playRound(0, 0)
+TicTacToe.playRound(0, 0)
+TicTacToe.playRound(0, 2)
+TicTacToe.playRound(0, 1)
 console.log(TicTacToe);
