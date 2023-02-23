@@ -116,6 +116,10 @@ function screenController() {
 
     let gameOn = gameController()
 
+    function clickHandler(e) {
+
+    }
+
     let board = gameOn.getBoard()
     console.log(board)
     board.forEach((row, rowIndex) => {
@@ -126,9 +130,19 @@ function screenController() {
             cellButton.dataset.row = rowIndex
             cellButton.dataset.column = columnIndex
 
+            cellButton.addEventListener('click', function(e) {
+
+                let row = e.target.dataset.row
+                let column = e.target.dataset.column
+                gameOn.playRound(row, column)
+                this.textContent = board[row][column].getValue()
+            })
+
             boardContainer.appendChild(cellButton)
 
             console.log(cellButton)
+
+
         })
 
     });
