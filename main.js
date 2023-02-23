@@ -39,7 +39,7 @@ function GameBoard() {
     }
 
 
-    return { getBoard, dropToken, printBoard }
+    return { dropToken, printBoard, getBoard }
 }
 
 
@@ -105,16 +105,42 @@ function gameController() {
 
     return {
         getActivePlayer,
-        playRound
-
+        playRound,
+        getBoard: game.getBoard
     }
 
 }
 
-let TicTacToe = gameController()
-TicTacToe.playRound(1, 2)
-TicTacToe.playRound(0, 0)
-TicTacToe.playRound(0, 0)
-TicTacToe.playRound(0, 2)
-TicTacToe.playRound(0, 1)
-console.log(TicTacToe);
+function screenController() {
+    let boardContainer = document.querySelector('.board')
+
+    let gameOn = gameController()
+
+    let board = gameOn.getBoard()
+    console.log(board)
+    board.forEach((row, rowIndex) => {
+        row.forEach((column, columnIndex) => {
+            let cellButton = document.createElement('button')
+            cellButton.classList.add('cell')
+
+            cellButton.dataset.row = rowIndex
+            cellButton.dataset.column = columnIndex
+
+            boardContainer.appendChild(cellButton)
+
+            console.log(cellButton)
+        })
+
+    });
+}
+
+
+// Testing Values
+// let TicTacToe = gameController()
+// TicTacToe.playRound(1, 2)
+// TicTacToe.playRound(0, 0)
+// TicTacToe.playRound(0, 0)
+// TicTacToe.playRound(0, 2)
+// TicTacToe.playRound(0, 1)
+// console.log(TicTacToe);
+screenController()
