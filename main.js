@@ -19,17 +19,11 @@ function GameBoard() {
     // Board Getter
     let getBoard = () => gameboard
 
-
     // Place Value on the Board
     function dropToken(row, column, player) {
-
-        let availableCell = gameboard[row][column].getValue() !== '';
-
-        if (availableCell) return
         gameboard[row][column].addToken(player)
 
     }
-
 
     // Prints Board to the Screen / Console.
     function printBoard() {
@@ -41,6 +35,8 @@ function GameBoard() {
 
     return { dropToken, printBoard, getBoard }
 }
+
+
 
 
 // Represents each Box to be displayed on the board
@@ -94,10 +90,13 @@ function gameController() {
 
     function playRound(row, column) {
         console.log(`Dropping ${getActivePlayer}'s token`);
-        game.dropToken(row, column, getActivePlayer().symbol)
 
-        switchPlayer()
-        printNewRound()
+        if (game.getBoard()[row][column].getValue() === '') {
+            game.dropToken(row, column, getActivePlayer().symbol)
+            switchPlayer()
+            printNewRound()
+        }
+        return
 
     }
 
@@ -113,39 +112,40 @@ function gameController() {
 
 function screenController() {
     let boardContainer = document.querySelector('.board')
-
+    let playerActive = document.querySelector('#player')
     let gameOn = gameController()
 
-    function clickHandler(e) {
-
-    }
 
     let board = gameOn.getBoard()
-    console.log(board)
+        // console.log(board)
+
     board.forEach((row, rowIndex) => {
+
         row.forEach((column, columnIndex) => {
+
             let cellButton = document.createElement('button')
             cellButton.classList.add('cell')
-
             cellButton.dataset.row = rowIndex
             cellButton.dataset.column = columnIndex
-
-            cellButton.addEventListener('click', function(e) {
-
-                let row = e.target.dataset.row
-                let column = e.target.dataset.column
-                gameOn.playRound(row, column)
-                this.textContent = board[row][column].getValue()
-            })
+            cellButton.addEventListener('click', clickHandler)
 
             boardContainer.appendChild(cellButton)
-
-            console.log(cellButton)
-
 
         })
 
     });
+
+
+    function clickHandler(e) {
+
+        let row = e.target.dataset.row
+        let column = e.target.dataset.column
+        gameOn.playRound(row, column)
+        this.textContent = board[row][column].getValue()
+        playerActive.textContent = `${gameOn.getActivePlayer().player}'s turn`
+
+    }
+
 }
 
 
