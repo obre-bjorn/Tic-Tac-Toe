@@ -38,7 +38,6 @@ function GameBoard() {
 
 
 
-
 // Represents each Box to be displayed on the board
 function Cell() {
     let value = ''
@@ -60,7 +59,6 @@ function Cell() {
 
 
 // Game Controller Function
-
 function gameController() {
 
     // Player that play the game
@@ -82,25 +80,43 @@ function gameController() {
 
     let getActivePlayer = () => activePlayer
 
-    function printNewRound() {
-        console.log(game.printBoard())
+    // function printNewRound() {
+    //     console.log(game.printBoard())
 
-        console.log(`${getActivePlayer().player}'s Turn `)
+    //     console.log(`${getActivePlayer().player}'s Turn `)
+    // }
+
+    let checkWinner = (board) => {
+        let result = false
+
+        for ()
+
     }
 
     function playRound(row, column) {
         console.log(`Dropping ${getActivePlayer}'s token`);
 
+
+
         if (game.getBoard()[row][column].getValue() === '') {
             game.dropToken(row, column, getActivePlayer().symbol)
-            switchPlayer()
-            printNewRound()
+
+            if (
+                //Horizantal
+                board[0][0] === board[0][1] && board[0][0] === board[0][2] ||
+                board[1][0] === board[1][1] && board[1][0] === board[1][2] ||
+                board[2][0] === board[2][1] && board[0][0] === board[0][2]
+                //Vertical
+                board[0][0] === board[0][1] && board[0][0] === board[0][2]
+            )
+                switchPlayer()
+                // printNewRound()
         }
         return
 
     }
 
-    printNewRound()
+    // printNewRound()
 
     return {
         getActivePlayer,
@@ -110,6 +126,8 @@ function gameController() {
 
 }
 
+
+//Game UI
 function screenController() {
     let boardContainer = document.querySelector('.board')
     let playerActive = document.querySelector('#player')
@@ -148,6 +166,8 @@ function screenController() {
 
 }
 
+
+//MinMax Algorithm
 
 // Testing Values
 // let TicTacToe = gameController()
