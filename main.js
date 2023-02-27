@@ -80,6 +80,7 @@ function gameController() {
 
     let getActivePlayer = () => activePlayer
 
+    let winner = null;
     // function printNewRound() {
     //     console.log(game.printBoard())
 
@@ -152,14 +153,13 @@ function gameController() {
         console.log(`Dropping ${getActivePlayer().player}'s token`);
 
 
-
-        if (game.getBoard()[row][column].getValue() === '') {
+        if (game.getBoard()[row][column].getValue() === '' && !winner) {
             game.dropToken(row, column, getActivePlayer().symbol)
             switchPlayer()
                 // printNewRound()
                 //return 'Game is still On'
         }
-        let winner = checkWinner(game.getBoard())
+        winner = checkWinner(game.getBoard())
         if (winner) return winner
 
     }
