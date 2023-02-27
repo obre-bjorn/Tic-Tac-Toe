@@ -87,32 +87,80 @@ function gameController() {
     // }
 
     let checkWinner = (board) => {
-        let result = false
+        const winningCombinations = [
+            [
+                [0, 0],
+                [0, 1],
+                [0, 2]
+            ], // horizontal line 1
+            [
+                [1, 0],
+                [1, 1],
+                [1, 2]
+            ], // horizontal line 2
+            [
+                [2, 0],
+                [2, 1],
+                [2, 2]
+            ], // horizontal line 3
+            [
+                [0, 0],
+                [1, 0],
+                [2, 0]
+            ], // vertical line 1
+            [
+                [0, 1],
+                [1, 1],
+                [2, 1]
+            ], // vertical line 2
+            [
+                [0, 2],
+                [1, 2],
+                [2, 2]
+            ], // vertical line 3
+            [
+                [0, 0],
+                [1, 1],
+                [2, 2]
+            ], // diagonal line 1
+            [
+                [0, 2],
+                [1, 1],
+                [2, 0]
+            ], // diagonal line 2
+        ];
 
-        for ()
+        // Iterate through each winning combination
+        for (let i = 0; i < winningCombinations.length; i++) {
+            const [a, b, c] = winningCombinations[i];
+            if (
+                board[a[0]][a[1]].getValue() && board[a[0]][a[1]].getValue() ===
+                board[b[0]][b[1]].getValue() && board[a[0]][a[1]].getValue() ===
+                board[c[0]][c[1]].getValue()) {
+
+                // Found a winning combination
+                if (board[a[0]][a[1]].getValue()) return board[a[0]][a[1]].getValue(); // Return the player symbol (either "X" or "O")
+            }
+        }
+
+        // No winner found
+        return null;
 
     }
 
     function playRound(row, column) {
-        console.log(`Dropping ${getActivePlayer}'s token`);
+        console.log(`Dropping ${getActivePlayer().player}'s token`);
 
 
 
         if (game.getBoard()[row][column].getValue() === '') {
             game.dropToken(row, column, getActivePlayer().symbol)
-
-            if (
-                //Horizantal
-                board[0][0] === board[0][1] && board[0][0] === board[0][2] ||
-                board[1][0] === board[1][1] && board[1][0] === board[1][2] ||
-                board[2][0] === board[2][1] && board[0][0] === board[0][2]
-                //Vertical
-                board[0][0] === board[0][1] && board[0][0] === board[0][2]
-            )
-                switchPlayer()
+            switchPlayer()
                 // printNewRound()
+                //return 'Game is still On'
         }
-        return
+        let winner = checkWinner(game.getBoard())
+        if (winner) return winner
 
     }
 
@@ -158,7 +206,8 @@ function screenController() {
 
         let row = e.target.dataset.row
         let column = e.target.dataset.column
-        gameOn.playRound(row, column)
+        console.log(gameOn.playRound(row, column))
+
         this.textContent = board[row][column].getValue()
         playerActive.textContent = `${gameOn.getActivePlayer().player}'s turn`
 
