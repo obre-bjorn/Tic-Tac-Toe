@@ -64,11 +64,13 @@ function gameController() {
     // Player that play the game
     let players = [{
             player: 'Player One',
-            symbol: 'X'
+            symbol: 'X',
+            control: 'human'
         },
         {
             player: 'Player Two',
-            symbol: 'O'
+            symbol: 'O',
+            control: 'computer'
         }
     ]
 
@@ -156,12 +158,17 @@ function gameController() {
     function playRound(row, column) {
         console.log(`Dropping ${getActivePlayer().player}'s token`);
 
+        let player = getActivePlayer().control
 
         if (game.getBoard()[row][column].getValue() === '' && !winner) {
-            game.dropToken(row, column, getActivePlayer().symbol)
-            switchPlayer()
-                // printNewRound()
-                //return 'Game is still On'
+            if (player === 'human') {
+                game.dropToken(row, column, getActivePlayer().symbol)
+                switchPlayer()
+            } else {
+
+            }
+            // printNewRound()
+            //return 'Game is still On'
         }
         winner = checkWinner(game.getBoard())
         if (winner) return winner
@@ -215,7 +222,7 @@ function screenController() {
 
         this.textContent = board[row][column].getValue()
         playerActive.textContent = `${gameOn.getActivePlayer().player}'s turn`
-        console.log(displayWinner)
+            // console.log(displayWinner)
         if (gameOn.getWinner()) { displayWinner.textContent = `${gameOn.getWinner()} has Won` };
 
     }
