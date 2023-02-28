@@ -23,6 +23,10 @@ body {
     color: whitesmoke;
 }
 
+#result {
+    color: white;
+}
+
 .board {
     display: grid;
     background-color: aqua;
@@ -35,4 +39,5 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 30px;
+    color: maroon;
 }

@@ -81,6 +81,10 @@ function gameController() {
     let getActivePlayer = () => activePlayer
 
     let winner = null;
+
+    function getWinner() {
+        return winner
+    }
     // function printNewRound() {
     //     console.log(game.printBoard())
 
@@ -169,6 +173,7 @@ function gameController() {
     return {
         getActivePlayer,
         playRound,
+        getWinner,
         getBoard: game.getBoard
     }
 
@@ -203,13 +208,15 @@ function screenController() {
 
 
     function clickHandler(e) {
-
+        let displayWinner = document.querySelector('#result')
         let row = e.target.dataset.row
         let column = e.target.dataset.column
         console.log(gameOn.playRound(row, column))
 
         this.textContent = board[row][column].getValue()
         playerActive.textContent = `${gameOn.getActivePlayer().player}'s turn`
+        console.log(displayWinner)
+        if (gameOn.getWinner()) { displayWinner.textContent = `${gameOn.getWinner()} has Won` };
 
     }
 
