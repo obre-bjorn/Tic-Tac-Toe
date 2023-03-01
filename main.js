@@ -161,15 +161,11 @@ function gameController() {
         let player = getActivePlayer().control
 
         if (game.getBoard()[row][column].getValue() === '' && !winner) {
-            if (player === 'human') {
-                game.dropToken(row, column, getActivePlayer().symbol)
-                switchPlayer()
-            } else {
 
-            }
-            // printNewRound()
-            //return 'Game is still On'
+            game.dropToken(row, column, getActivePlayer().symbol)
+            switchPlayer()
         }
+
         winner = checkWinner(game.getBoard())
         if (winner) return winner
 
@@ -205,7 +201,7 @@ function screenController() {
             cellButton.classList.add('cell')
             cellButton.dataset.row = rowIndex
             cellButton.dataset.column = columnIndex
-            cellButton.addEventListener('click', clickHandler)
+            cellButton.addEventListener('click', playGame)
 
             boardContainer.appendChild(cellButton)
 
@@ -214,7 +210,11 @@ function screenController() {
     });
 
 
-    function clickHandler(e) {
+
+
+
+    // Click Handlers 
+    function playGame(e) {
         let displayWinner = document.querySelector('#result')
         let row = e.target.dataset.row
         let column = e.target.dataset.column
