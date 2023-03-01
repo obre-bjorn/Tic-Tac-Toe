@@ -14,6 +14,7 @@ button {
     height: 2rem;
     width: 6rem;
     border: none;
+    border-radius: .3rem;
 }
 
 .container {
@@ -32,7 +33,7 @@ button {
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background-color: aquamarine;
+    background-color: bisque;
     display: flex;
     align-items: center;
     justify-content: center;

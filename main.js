@@ -74,6 +74,13 @@ function gameController() {
         }
     ]
 
+    let setPlayerName = (name, symbol, control) => {
+        let [player1, player2] = players
+
+
+
+    }
+
     let game = GameBoard();
 
     let activePlayer = players[0]
@@ -185,6 +192,42 @@ function gameController() {
 
 //Game UI
 function screenController() {
+
+    //Game Setup
+    let gameSetup = document.querySelector('#game-setup');
+    let startGame = document.querySelector('#start-game');
+    let playerCards = [...document.querySelectorAll('.player-card')]
+    let controlSelect = [...document.querySelectorAll('.select-player')]
+
+    controlSelect.forEach(button => button.addEventListener('click', function(e) {
+        // console.log(e)
+        button.textContent = button.textContent === 'Human' ? 'AI' : 'Human'
+    }))
+
+    startGame.addEventListener('click', function(e) {
+        let players = []
+        let valid = playerCards.every((card, index) => {
+            let playername = card.querySelector('input').value
+            let controller = card.querySelector('button').textContent
+
+            players.push({
+                name: playername,
+                control: controller
+            })
+            return playername
+
+        })
+
+        console.log(players)
+
+    })
+
+
+
+
+
+
+    // The Game
     let boardContainer = document.querySelector('.board')
     let playerActive = document.querySelector('#player')
     let gameOn = gameController()
