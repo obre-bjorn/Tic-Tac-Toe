@@ -62,28 +62,19 @@ function Cell() {
 function gameController() {
 
     // Player that play the game
-    let players = [{
-            player: 'Player One',
-            symbol: 'X',
-            control: 'human'
-        },
-        {
-            player: 'Player Two',
-            symbol: 'O',
-            control: 'computer'
-        }
-    ]
+    let players = [];
 
-    let setPlayerName = (name, symbol, control) => {
-        let [player1, player2] = players
+    let activePlayer
 
 
-
+    let setPlayers = (playersArr) => {
+        playersArr.forEach(player => players.push(player))
+        console.log(players)
+        activePlayer = players[0]
     }
 
     let game = GameBoard();
 
-    let activePlayer = players[0]
 
     let switchPlayer = () => activePlayer = activePlayer === players[0] ? players[1] : players[0]
 
@@ -163,9 +154,10 @@ function gameController() {
     }
 
     function playRound(row, column) {
-        console.log(`Dropping ${getActivePlayer().player}'s token`);
+        console.log(getActivePlayer())
+        console.log(`Dropping ${getActivePlayer().name}'s token`);
 
-        let player = getActivePlayer().control
+        // let player = getActivePlayer().control
 
         if (game.getBoard()[row][column].getValue() === '' && !winner) {
 
@@ -184,7 +176,9 @@ function gameController() {
         getActivePlayer,
         playRound,
         getWinner,
-        getBoard: game.getBoard
+        getBoard: game.getBoard,
+        player: players,
+        setPlayers
     }
 
 }
@@ -193,7 +187,12 @@ function gameController() {
 //Game UI
 function screenController() {
 
-    //Game Setup
+    // Game Setup
+    let gameOn = gameController()
+    let board = gameOn.getBoard()
+
+
+    // Game Settings
     let gameSetup = document.querySelector('#game-setup');
     let startGame = document.querySelector('#start-game');
     let playerCards = [...document.querySelectorAll('.player-card')]
@@ -209,16 +208,25 @@ function screenController() {
         let valid = playerCards.every((card, index) => {
             let playername = card.querySelector('input').value
             let controller = card.querySelector('button').textContent
-
+            let playerSymbol = card.querySelector('.symbol').textContent
             players.push({
                 name: playername,
+                symbol: playerSymbol,
                 control: controller
             })
             return playername
 
         })
 
-        console.log(players)
+        if (valid) {
+            gameSetup.style.display = 'none'
+            gameOn.setPlayers(players)
+            console.log('====================================');
+            console.log(gameOn.getActivePlayer());
+            console.log('====================================');
+            //console.log(gameOn.player)
+
+        }
 
     })
 
@@ -230,10 +238,6 @@ function screenController() {
     // The Game
     let boardContainer = document.querySelector('.board')
     let playerActive = document.querySelector('#player')
-    let gameOn = gameController()
-
-
-    let board = gameOn.getBoard()
         // console.log(board)
 
     board.forEach((row, rowIndex) => {
@@ -264,7 +268,7 @@ function screenController() {
         console.log(gameOn.playRound(row, column))
 
         this.textContent = board[row][column].getValue()
-        playerActive.textContent = `${gameOn.getActivePlayer().player}'s turn`
+        playerActive.textContent = `${gameOn.getActivePlayer().name}'s turn`
             // console.log(displayWinner)
         if (gameOn.getWinner()) { displayWinner.textContent = `${gameOn.getWinner()} has Won` };
 
