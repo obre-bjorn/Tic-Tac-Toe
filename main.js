@@ -33,6 +33,10 @@ function GameBoard() {
     }
 
 
+
+
+
+
     return { dropToken, printBoard, getBoard }
 }
 
@@ -54,7 +58,11 @@ function Cell() {
         return value
     }
 
-    return { addToken, getValue }
+    function reset() {
+        value = ''
+    }
+
+    return { addToken, getValue, reset }
 }
 
 
@@ -80,11 +88,7 @@ function gameController() {
 
     let getActivePlayer = () => activePlayer
 
-    let winner = null;
 
-    function getWinner() {
-        return winner
-    }
     // function printNewRound() {
     //     console.log(game.printBoard())
 
@@ -152,6 +156,11 @@ function gameController() {
         return null;
 
     }
+    let winner = checkWinner(game.getBoard());
+
+    function getWinner() {
+        return winner
+    }
 
     function playRound(row, column) {
         console.log(getActivePlayer())
@@ -170,6 +179,7 @@ function gameController() {
 
     }
 
+
     // printNewRound()
 
     return {
@@ -178,7 +188,8 @@ function gameController() {
         getWinner,
         getBoard: game.getBoard,
         player: players,
-        setPlayers
+        setPlayers,
+
     }
 
 }
@@ -190,6 +201,8 @@ function screenController() {
     // Game Setup
     let gameOn = gameController()
     let board = gameOn.getBoard()
+
+    // resetButtion 
 
 
     // Game Settings
@@ -258,6 +271,12 @@ function screenController() {
 
 
 
+    let resetGame = document.querySelector('#reset')
+    resetGame.addEventListener('click', function(e) {
+        board.forEach(row => row.forEach(cell => cell.reset()))
+        let cellButtons = [...document.querySelectorAll('.cell')]
+        cellButtons.forEach(cell => cell.textContent = '')
+    })
 
 
     // Click Handlers 

@@ -30,6 +30,7 @@ button {}
     height: 100vh;
     background-color: bisque;
     display: flex;
+    /* display: none; */
     align-items: center;
     justify-content: center;
     gap: 3rem;
