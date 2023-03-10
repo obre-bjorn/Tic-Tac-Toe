@@ -34,7 +34,6 @@ button {}
     align-items: center;
     justify-content: center;
     gap: 3rem;
-    /* display: none; */
 }
 
 #player {

@@ -35,7 +35,7 @@ console.table(computerPlay(board))
 console.table(computerPlay(board))
 console.table(computerPlay(board))
     // 
-
+console.log([] === false)
 
 // function Human() {
 

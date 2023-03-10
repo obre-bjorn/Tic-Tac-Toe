@@ -75,6 +75,19 @@ function gameController() {
     let activePlayer
 
 
+    function checkAvailableCells(board) {
+        let availableCells = []
+
+        for (let row = 0; row < board.length; row++) {
+            for (let cell = 0; cell < board[row].length; cell++) {
+                // console.log(board[row][cell])
+                if (!board[row][cell].getValue()) availableCells.push(row + '' + cell)
+            }
+        }
+
+        return availableCells
+    }
+
     let setPlayers = (playersArr) => {
         playersArr.forEach(player => players.push(player))
         console.log(players)
@@ -168,15 +181,20 @@ function gameController() {
 
         // let player = getActivePlayer().control
 
+
         if (game.getBoard()[row][column].getValue() === '' && !winner) {
 
             game.dropToken(row, column, getActivePlayer().symbol)
             switchPlayer()
         }
 
-        winner = checkWinner(game.getBoard())
-        if (winner) return winner
+        let remainingCells = checkAvailableCells(game.getBoard())
+        if (remainingCells == false) return "Draw"
 
+        winner = checkWinner(game.getBoard())
+        if (winner) return "Won"
+
+        console.log(remainingCells)
     }
 
 
@@ -208,7 +226,6 @@ function screenController() {
     // Game Settings
     let gameSetup = document.querySelector('#game-setup');
     let startGame = document.querySelector('#start-game');
-    let playerCards = [...document.querySelectorAll('.player-card')]
     let controlSelect = [...document.querySelectorAll('.select-player')]
 
     controlSelect.forEach(button => button.addEventListener('click', function(e) {
@@ -217,8 +234,9 @@ function screenController() {
     }))
 
     startGame.addEventListener('click', function(e) {
+        let playerCards = [...document.querySelectorAll('.player-card')]
         let players = []
-        let valid = playerCards.every((card, index) => {
+        let isValid = playerCards.every((card, index) => {
             let playername = card.querySelector('input').value
             let controller = card.querySelector('button').textContent
             let playerSymbol = card.querySelector('.symbol').textContent
@@ -231,7 +249,7 @@ function screenController() {
 
         })
 
-        if (valid) {
+        if (isValid) {
             gameSetup.style.display = 'none'
             gameOn.setPlayers(players)
             console.log('====================================');
@@ -284,12 +302,16 @@ function screenController() {
         let displayWinner = document.querySelector('#result')
         let row = e.target.dataset.row
         let column = e.target.dataset.column
-        console.log(gameOn.playRound(row, column))
+        gameOn.playRound(row, column);
 
         this.textContent = board[row][column].getValue()
         playerActive.textContent = `${gameOn.getActivePlayer().name}'s turn`
             // console.log(displayWinner)
-        if (gameOn.getWinner()) { displayWinner.textContent = `${gameOn.getWinner()} has Won` };
+        if (gameOn.playRound(row, column) === "Won") {
+            displayWinner.textContent = `${gameOn.getWinner()} has Won`
+        } else if (gameOn.playRound(row, column) === "Draw") {
+            displayWinner.textContent = `Its a Draw!`
+        };
 
     }
 
